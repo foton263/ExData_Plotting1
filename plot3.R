@@ -60,7 +60,7 @@ legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
        legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
 dev.off()
 
-## to upload binaries(images) to github you have first to clone 
+## to upload binaries(images) to github you have first to clone and pull
 ## your repository locally save there the png and then use the following 
 ## commands at git shell :
 # git add plot3.png
