@@ -44,7 +44,7 @@ class(disrange$date_time)
 summary(disrange)
 # and the time has come... for the plot... construct the object
 plot(disrange$Sub_metering_1~as.POSIXct(disrange$date_time), type="l",
-       ylab="Global Active Power (kilowatts)", xlab="")
+       ylab="Energy sub metering", xlab="")
   lines(disrange$Sub_metering_2~as.POSIXct(disrange$date_time),col='Red')
   lines(disrange$Sub_metering_3~as.POSIXct(disrange$date_time),col='Blue')
   legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
@@ -53,7 +53,7 @@ plot(disrange$Sub_metering_1~as.POSIXct(disrange$date_time), type="l",
 destplot<-paste(workdir,"/","plot3.png",sep = "")
 png(destplot,width = 480, height = 480)
 plot(disrange$Sub_metering_1~as.POSIXct(disrange$date_time), type="l",
-     ylab="Global Active Power (kilowatts)", xlab="")
+     ylab="Energy sub metering)", xlab="")
 lines(disrange$Sub_metering_2~as.POSIXct(disrange$date_time),col='Red')
 lines(disrange$Sub_metering_3~as.POSIXct(disrange$date_time),col='Blue')
 legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
