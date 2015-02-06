@@ -17,7 +17,7 @@ if (!file.exists(zipdestination))
 filepath<-paste(workdir,"/","household_power_consumption.txt",sep = "")
 # now we can start Loading data ---------------------------------------------
 message("reading started...")
-dis <- read.table(file = filepath,header = TRUE,sep = ";")
+dis <- read.table(file = filepath,header = TRUE,sep = ";",stringsAsFactors = FALSE)
 message("reading completed...")
 # subset to the range of interest and remove the big dataset from memory
 disrange<-subset(x = dis,subset = (dis$Date=="1/2/2007") | (dis$Date=="2/2/2007"))
@@ -26,35 +26,45 @@ rm(dis)
 head(disrange)
 message("...")
 tail(disrange)
+#inspect the data for invalids
+summary(disrange)
 # convert character to POSIX
 disrange$date_time<-paste(disrange$Date,disrange$Time)
 disrange$date_time<-strptime(disrange$date_time, "%d/%m/%Y %H:%M:%S")
-# Check to be sure...
+# correct columns to numeric  
+disrange$Global_active_power<-as.numeric(x = disrange$Global_active_power)
+disrange$Global_reactive_power<-as.numeric(x = disrange$Global_reactive_power)
+disrange$Voltage<-as.numeric(x = disrange$Voltage)
+disrange$Global_intensity<-as.numeric(disrange$Global_intensity)
+disrange$Sub_metering_1<-as.numeric(disrange$Sub_metering_1)
+disrange$Sub_metering_2<-as.numeric(disrange$Sub_metering_2)
+disrange$Sub_metering_3<-as.numeric(disrange$Sub_metering_3)
+# Check again to be sure...
 class(disrange$date_time)
+summary(disrange)
 # and the time has come... for the plot... construct the object
-plot(as.numeric(disrange$Sub_metering_1)~as.POSIXct(disrange$date_time), type="l",
+plot(disrange$Sub_metering_1~as.POSIXct(disrange$date_time), type="l",
        ylab="Global Active Power (kilowatts)", xlab="")
-  lines(as.numeric(disrange$Sub_metering_2)~as.POSIXct(disrange$date_time),col='Red')
-  lines(as.numeric(disrange$Sub_metering_3)~as.POSIXct(disrange$date_time),col='Blue')
+  lines(disrange$Sub_metering_2~as.POSIXct(disrange$date_time),col='Red')
+  lines(disrange$Sub_metering_3~as.POSIXct(disrange$date_time),col='Blue')
   legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
        legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
 # define output call open the device plot and close it!
 destplot<-paste(workdir,"/","plot3.png",sep = "")
 png(destplot,width = 480, height = 480)
-plot(as.numeric(disrange$Sub_metering_1)~as.POSIXct(disrange$date_time), type="l",
+plot(disrange$Sub_metering_1~as.POSIXct(disrange$date_time), type="l",
      ylab="Global Active Power (kilowatts)", xlab="")
-lines(as.numeric(disrange$Sub_metering_2)~as.POSIXct(disrange$date_time),col='Red')
-lines(as.numeric(disrange$Sub_metering_3)~as.POSIXct(disrange$date_time),col='Blue')
+lines(disrange$Sub_metering_2~as.POSIXct(disrange$date_time),col='Red')
+lines(disrange$Sub_metering_3~as.POSIXct(disrange$date_time),col='Blue')
 legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2,
        legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
-)
 dev.off()
 
 ## to upload binaries(images) to github you have first to clone 
 ## your repository locally save there the png and then use the following 
 ## commands at git shell :
-# git add plot2.png
-# git commit -m 'add my plot 2'
+# git add plot3.png
+# git commit -m 'add my plot 3'
 # # git push -u origin master
 
 # May the R be with you...
