@@ -2,6 +2,7 @@
 library(ggplot2)
 library(grid)
 library(utils)
+Sys.setlocale("LC_TIME", "English")
 # first we create c:\data directory download the zip file there and unzip it
 source_url<-"https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
 workdir<-"c:/data" # project's directory if you don't like it modify it.
